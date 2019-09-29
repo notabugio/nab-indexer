@@ -178,12 +178,7 @@ export async function indexThing(peer: NabIndexer, id: string) {
   }
 
   const endedAt = new Date().getTime()
-  console.log(
-    "indexed",
-    (endedAt - startedAt) / 1000,
-    id,
-    (<any>peer.graph)._graph
-  )
+  console.log("indexed", (endedAt - startedAt) / 1000, id)
 }
 
 export function idsToIndex(msg: any) {
@@ -202,8 +197,5 @@ export function idsToIndex(msg: any) {
     }
   }
 
-  if (ids.length) {
-    console.log("ids", ids, msg)
-  }
   return ids
 }

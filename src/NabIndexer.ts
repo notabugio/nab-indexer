@@ -54,7 +54,7 @@ export class NabIndexer extends ChainGunSear {
   }
 
   newScope(): any {
-    return Query.createScope(this, { unsub: true })
+    return Query.createScope(this, { unsub: !!process.env.NAB_INDEXER_UNSUB })
   }
 
   didReceiveDiff(msg: any) {
