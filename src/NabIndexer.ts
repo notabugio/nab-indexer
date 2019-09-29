@@ -8,8 +8,8 @@ interface Opts {
 
 const DEFAULT_OPTS: Opts = {
   socketCluster: {
-    hostname: "127.0.0.1",
-    port: 4444,
+    hostname: process.env.GUN_SC_HOST || "localhost",
+    port: process.env.GUN_SC_PORT || "4444",
     autoReconnect: true,
     autoReconnectOptions: {
       initialDelay: 1,
@@ -38,7 +38,7 @@ export class NabIndexer extends ChainGunSear {
 
     const graph = new GunGraph()
     const socket = new SocketClusterGraphConnector(options.socketCluster)
-    graph.connect(socket)
+    graph.connect(socket as any)
 
     super({ graph, ...opts })
     this.gun = this
