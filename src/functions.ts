@@ -1,5 +1,4 @@
-import * as R from "ramda"
-import { Query, Listing, Schema, ThingDataNode } from "@notabug/peer"
+import { Query, Listing, Schema, ThingDataNode, Config } from "@notabug/peer"
 import NabIndexer from "."
 
 const { ListingSort, ListingNode, ListingSpec } = Listing
@@ -127,12 +126,32 @@ export async function indexThing(peer: NabIndexer, id: string) {
 
     const putData: any = {}
 
+    const souls = listingMap.map(item => {
+      const [listingPath]: [string, [string, number][]] = item
+      return ListingNode.soulFromPath(Config.tabulator, listingPath)
+    })
+
+    if (!souls.length) {
+      console.log("no souls", id, listingMap)
+    }
+
+    const nodes = {}
+
+    await Promise.all(
+      souls.map(soul =>
+        scope.get(soul).then(node => {
+          nodes[soul] = node
+        })
+      )
+    )
+
     await Promise.all(
       listingMap.map(async item => {
         const [listingPath, updatedItems]: [string, [string, number][]] = item
-        const soul = ListingNode.soulFromPath(peer.user().is.pub, listingPath)
-        const existing = await scope.get(soul).then()
+        const soul = ListingNode.soulFromPath(Config.tabulator, listingPath)
+        const existing = nodes[soul]
         const diff = await ListingNode.diff(existing, updatedItems, [])
+
         if (!diff) return
         putData[listingPath] = {
           _: {
@@ -146,7 +165,7 @@ export async function indexThing(peer: NabIndexer, id: string) {
     if (Object.keys(putData).length) {
       const listingsSoul = Schema.ThingListingsMeta.route.reverse({
         thingId: id,
-        tabulator: peer.user().is.pub
+        tabulator: Config.tabulator
       })
       if (listingsSoul) {
         await new Promise(ok => peer.get(listingsSoul).put(putData, ok))
@@ -159,7 +178,12 @@ export async function indexThing(peer: NabIndexer, id: string) {
   }
 
   const endedAt = new Date().getTime()
-  console.log("indexed", (endedAt - startedAt) / 1000, id)
+  console.log(
+    "indexed",
+    (endedAt - startedAt) / 1000,
+    id,
+    (<any>peer.graph)._graph
+  )
 }
 
 export function idsToIndex(msg: any) {
@@ -169,20 +193,17 @@ export function idsToIndex(msg: any) {
 
   for (let soul in put) {
     const thingMatch = Schema.Thing.route.match(soul)
-    const thingDataMatch =
-      Schema.ThingDataSigned.route.match(soul) ||
-      Schema.ThingData.route.match(soul)
     const countsMatch = Schema.ThingVoteCounts.route.match(soul)
-    const thingId: string = R.propOr(
-      "",
-      "thingId",
-      thingMatch || thingDataMatch || countsMatch
-    )
+    if (countsMatch && countsMatch.tabulator !== Config.tabulator) continue
+    const thingId = (thingMatch || countsMatch || {}).thingId || ""
 
     if (thingId && ids.indexOf(thingId) === -1) {
       ids.push(thingId)
     }
   }
 
+  if (ids.length) {
+    console.log("ids", ids, msg)
+  }
   return ids
 }

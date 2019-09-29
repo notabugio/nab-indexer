@@ -41,6 +41,7 @@ export class NabIndexer extends ChainGunSear {
     const graph = new GunGraph()
     const socket = new SocketClusterGraphConnector(options.socketCluster)
     graph.connect(socket as any)
+    graph.opt({ mutable: true })
 
     super({ graph, ...opts })
     this.gun = this
@@ -53,10 +54,11 @@ export class NabIndexer extends ChainGunSear {
   }
 
   newScope(): any {
-    return Query.createScope(this, {})
+    return Query.createScope(this, { unsub: true })
   }
 
   didReceiveDiff(msg: any) {
+    this.socket.ingest([msg])
     const ids = idsToIndex(msg)
     if (ids.length) {
       this.indexerQueue.enqueueMany(ids)
