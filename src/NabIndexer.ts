@@ -1,10 +1,13 @@
 import { ChainGunSear, GunGraph, GunProcessQueue } from "@notabug/chaingun-sear"
 import SocketClusterGraphConnector from "@notabug/chaingun-socket-cluster-connector"
 import { Oracle, Query, Config } from "@notabug/peer"
+import { pubFromSoul, unpackNode } from "@notabug/gun-sear"
 import { idsToIndex, indexThing } from "./functions"
+import LmdbGraphConnector from "@notabug/chaingun-lmdb"
 
 interface Opts {
   socketCluster: any
+  lmdb?: any
 }
 
 const DEFAULT_OPTS: Opts = {
@@ -17,6 +20,10 @@ const DEFAULT_OPTS: Opts = {
       randomness: 100,
       maxDelay: 500
     }
+  },
+  lmdb: {
+    path: process.env.LMDB_PATH || "./data",
+    mapSize: 1024 ** 4
   }
 }
 
@@ -27,24 +34,30 @@ Config.update({
 
 export class NabIndexer extends ChainGunSear {
   socket: SocketClusterGraphConnector
+  lmdb: LmdbGraphConnector
   oracle: Oracle
   indexerQueue: GunProcessQueue
 
   gun: ChainGunSear // temp compatibility thing for notabug-peer transition
 
   constructor(options = DEFAULT_OPTS) {
-    const { socketCluster: scOpts, ...opts } = {
+    const { socketCluster: scOpts, lmdb: lmdbOpts, ...opts } = {
       ...DEFAULT_OPTS,
       ...options
     }
 
+    console.log("lmdbopts", lmdbOpts)
     const graph = new GunGraph()
+    const lmdb = new LmdbGraphConnector(lmdbOpts)
+
     const socket = new SocketClusterGraphConnector(options.socketCluster)
     graph.connect(socket as any)
     graph.opt({ mutable: true })
 
     super({ graph, ...opts })
     this.gun = this
+    this.lmdb = lmdb
+    this.directRead = this.directRead.bind(this)
 
     this.indexerQueue = new GunProcessQueue()
     this.indexerQueue.middleware.use(id => indexThing(this, id))
@@ -54,7 +67,33 @@ export class NabIndexer extends ChainGunSear {
   }
 
   newScope(): any {
-    return Query.createScope(this, { unsub: !!process.env.NAB_INDEXER_UNSUB })
+    return Query.createScope(this, {
+      getter: this.directRead,
+      unsub: true
+    })
+  }
+
+  directRead(soul: string) {
+    const start = new Date().getTime()
+    return new Promise(ok => {
+      this.lmdb.get({
+        soul,
+        cb: (msg: any) => {
+          const node = (msg && msg.put && msg.put[soul]) || undefined
+          const end = new Date().getTime()
+          const duration = end - start
+          if (duration > 100) {
+            console.log("directRead", duration, soul)
+          }
+
+          if (pubFromSoul(soul)) {
+            unpackNode(node, "mutable")
+          }
+
+          ok(node)
+        }
+      })
+    })
   }
 
   didReceiveDiff(msg: any) {
