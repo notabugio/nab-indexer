@@ -1,6 +1,6 @@
 import { ChainGunSear, GunGraph, GunProcessQueue } from "@notabug/chaingun-sear"
 import SocketClusterGraphConnector from "@notabug/chaingun-socket-cluster-connector"
-import { Oracle, Query, Config } from "@notabug/peer"
+import { Query, Config } from "@notabug/peer"
 import { pubFromSoul, unpackNode } from "@notabug/gun-sear"
 import { idsToIndex, indexThing } from "./functions"
 import LmdbGraphConnector from "@notabug/chaingun-lmdb"
@@ -35,7 +35,6 @@ Config.update({
 export class NabIndexer extends ChainGunSear {
   socket: SocketClusterGraphConnector
   lmdb: LmdbGraphConnector
-  oracle: Oracle
   indexerQueue: GunProcessQueue
 
   gun: ChainGunSear // temp compatibility thing for notabug-peer transition
@@ -49,10 +48,12 @@ export class NabIndexer extends ChainGunSear {
     console.log("lmdbopts", lmdbOpts)
     const graph = new GunGraph()
     const lmdb = new LmdbGraphConnector(lmdbOpts)
-
+    lmdb.sendRequestsFromGraph(graph as any)
     const socket = new SocketClusterGraphConnector(options.socketCluster)
-    graph.connect(socket as any)
+    graph.connect(lmdb as any)
     graph.opt({ mutable: true })
+
+    socket.sendPutsFromGraph(graph as any)
 
     super({ graph, ...opts })
     this.gun = this
@@ -74,21 +75,12 @@ export class NabIndexer extends ChainGunSear {
   }
 
   directRead(soul: string) {
-    const start = new Date().getTime()
     return new Promise(ok => {
       this.lmdb.get({
         soul,
         cb: (msg: any) => {
           const node = (msg && msg.put && msg.put[soul]) || undefined
-          const end = new Date().getTime()
-          const duration = end - start
-          if (duration > 100) {
-            console.log("directRead", duration, soul)
-          }
-
-          if (pubFromSoul(soul)) {
-            unpackNode(node, "mutable")
-          }
+          if (pubFromSoul(soul)) unpackNode(node, "mutable")
 
           ok(node)
         }
@@ -97,7 +89,6 @@ export class NabIndexer extends ChainGunSear {
   }
 
   didReceiveDiff(msg: any) {
-    this.socket.ingest([msg])
     const ids = idsToIndex(msg)
     if (ids.length) {
       this.indexerQueue.enqueueMany(ids)
