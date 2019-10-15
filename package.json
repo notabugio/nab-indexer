@@ -1,6 +1,6 @@
 {
   "name": "@notabug/nab-indexer",
-  "version": "0.0.9",
+  "version": "0.0.11",
   "description": "Indexer for notabug.io",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -53,9 +53,9 @@
   },
   "dependencies": {
     "@notabug/chaingun-lmdb": "^0.0.6",
-    "@notabug/chaingun-sear": "^0.0.14",
+    "@notabug/chaingun-sear": "^0.0.19",
     "@notabug/chaingun-socket-cluster-connector": "^0.0.3",
-    "@notabug/gun-sear": "^0.0.18",
+    "@notabug/gun-sear": "^0.0.22",
     "@notabug/peer": "^0.36.1",
     "dotenv": "^8.1.0"
   },
@@ -93,7 +93,8 @@
     }
   },
   "prettier": {
-    "singleQuote": true
+    "singleQuote": true,
+    "semi": false
   },
   "nyc": {
     "extends": "@istanbuljs/nyc-config-typescript",
