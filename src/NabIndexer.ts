@@ -5,6 +5,8 @@ import { pubFromSoul, unpackNode } from '@notabug/gun-sear'
 import { Config, Query } from '@notabug/peer'
 import { idsToIndex, indexThing } from './functions'
 
+const READ_TIMEOUT = 2000
+
 interface Opts {
   readonly socketCluster: any
   readonly lmdb?: any
@@ -86,7 +88,17 @@ export class NabIndexer extends ChainGunSear {
   }
 
   public directRead(soul: string): Promise<any> {
-    return new Promise(ok => {
+    return new Promise((ok, fail) => {
+      const timeout = setTimeout(
+        () => fail(new Error('Read timeout')),
+        READ_TIMEOUT
+      )
+
+      function done(val: any): void {
+        clearTimeout(timeout)
+        ok(val)
+      }
+
       this.lmdb.get({
         cb: (msg: any) => {
           const node = (msg && msg.put && msg.put[soul]) || undefined
@@ -94,7 +106,7 @@ export class NabIndexer extends ChainGunSear {
             unpackNode(node, 'mutable')
           }
 
-          ok(node)
+          done(node)
         },
         soul
       })
