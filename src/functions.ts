@@ -1,6 +1,8 @@
 import { Config, Listing, Query, Schema, ThingDataNode } from '@notabug/peer'
 import NabIndexer from '.'
 
+const WRITE_TIMEOUT = 2000
+
 const { ListingSort, ListingNode, ListingSpec } = Listing
 
 export async function getListings(
@@ -214,7 +216,19 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
         thingId: id
       })
       if (listingsSoul) {
-        await new Promise(ok => peer.get(listingsSoul).put(putData, ok))
+        await new Promise((ok, fail) => {
+          const timeout = setTimeout(
+            () => fail(new Error('Write timeout')),
+            WRITE_TIMEOUT
+          )
+
+          function done(): void {
+            clearTimeout(timeout)
+            ok()
+          }
+
+          peer.get(listingsSoul).put(putData, done)
+        })
       }
     }
   } catch (e) {

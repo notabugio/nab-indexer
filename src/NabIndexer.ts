@@ -48,7 +48,7 @@ export class NabIndexer extends ChainGunSear {
     socket.sendPutsFromGraph(graph as any)
 
     super({ graph, ...opts })
-    socket.socket.on("connect", this.authenticate.bind(this))
+    socket.socket.on('connect', this.authenticate.bind(this))
 
     this.lmdb = lmdb
     this.directRead = this.directRead.bind(this)
@@ -57,38 +57,20 @@ export class NabIndexer extends ChainGunSear {
     this.indexerQueue.middleware.use(id => indexThing(this, id))
 
     this.socket = socket
-    this.authenticate()
 
-    setInterval(
-      () => this.authenticate(),
-      1000*60*30
+    this.socket.subscribeToChannel(
+      'gun/put/diff',
+      this.didReceiveDiff.bind(this)
     )
   }
 
   public authenticate(): void {
-    if (process.env.GUN_SC_PUB && process.env.GUN_SC_PRIV) {
-      this.socket
-        .authenticate(process.env.GUN_SC_PUB, process.env.GUN_SC_PRIV)
-        .then(() => {
-          // tslint:disable-next-line: no-console
-          console.log(`Logged in as ${process.env.GUN_SC_PUB}`)
-          // tslint:disable-next-line: no-console
-          console.log('socket id', this.socket.socket.id)
-        })
-        // tslint:disable-next-line: no-console
-        .catch(err => console.error('Error logging in:', err.stack || err))
-    }
-
-    if (process.env.GUN_ALIAS && process.env.GUN_PASSWORD) {
+    if (process.env.GUN_ALIAS && process.env.GUN_PASSWORD && !this.user().is) {
       this.user()
         .auth(process.env.GUN_ALIAS, process.env.GUN_PASSWORD)
         .then(() => {
           // tslint:disable-next-line: no-console
           console.log(`Logged in as ${process.env.GUN_ALIAS}`)
-          this.socket.subscribeToChannel(
-            'gun/put/diff',
-            this.didReceiveDiff.bind(this)
-          )
         })
     }
   }
