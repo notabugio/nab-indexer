@@ -1,5 +1,5 @@
 import { Config, Listing, Query, Schema, ThingDataNode } from '@notabug/peer'
-import NabIndexer from '.'
+import { NabIndexer } from './NabIndexer'
 
 const WRITE_TIMEOUT = 2000
 
