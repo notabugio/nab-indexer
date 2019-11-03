@@ -57,6 +57,7 @@ export class NabIndexer extends ChainGunSeaClient {
     super({ graph, ...opts })
     socket.socket.on('connect', this.authenticate.bind(this))
 
+    this.dbAdapter = dbAdapter
     this.dbConnector = dbConnector
     this.directRead = this.directRead.bind(this)
 
