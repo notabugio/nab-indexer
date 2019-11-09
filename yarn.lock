@@ -323,10 +323,10 @@
   dependencies:
     "@chaingun/types" "^0.0.3"
 
-"@chaingun/http-adapter@^0.3.0":
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/@chaingun/http-adapter/-/http-adapter-0.3.0.tgz#c52b06fc5953c948d1f40944620c84830a640b1a"
-  integrity sha512-2wC9FgnPxgGsbBCcQzoYm+OqVMyCMduDRgCYeZFvNpoQQcvrG2TG9pEpV0BhXZ4TgGyVbizA7PZ6YdImcohWVg==
+"@chaingun/http-adapter@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@chaingun/http-adapter/-/http-adapter-0.4.1.tgz#a12b5548d3d7225ff067bf888b95646e4ed0403a"
+  integrity sha512-VRAWZsfwoeJ+YswHgcFXgG5FHoRlJdoMiSxt1eIq2Cb3eMeracowzkftrGDC4OR0en07kZWfAz20TyOmVR1NeA==
   dependencies:
     "@chaingun/types" "^0.0.3"
     "@types/isomorphic-fetch" "^0.0.35"
@@ -341,12 +341,12 @@
     "@chaingun/types" "^0.0.3"
     node-lmdb "^0.7.0"
 
-"@chaingun/node-adapters@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.0.3.tgz#4fbded6ff64fec80d6be18c14585aa917f69ae3d"
-  integrity sha512-TyOa80DP4oVpBHudlqhwbaMHNmQJD295v/oyor9FXt6OkJpDpOpTNpzdSQkMsxwilYHYMbpXr0WQFvQEPjQB5w==
+"@chaingun/node-adapters@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.0.5.tgz#1af6d0774bd7963b777777bb3da85eb9b1fb3ca8"
+  integrity sha512-npaOsaqZaZi6/1+mQcT9OMlQelgjNJ+ZfJp/5qQIjKN8NuoTt0Lsdxp35W+QDAHO1FJIO3ku45ERzioh9wh3oQ==
   dependencies:
-    "@chaingun/http-adapter" "^0.3.0"
+    "@chaingun/http-adapter" "^0.4.1"
     "@chaingun/lmdb-adapter" "^0.0.7"
     "@chaingun/types" "^0.0.3"
     "@types/node" "^12.11.7"
@@ -370,13 +370,14 @@
     text-encoding "^0.7.0"
     window-or-global "^1.0.1"
 
-"@chaingun/socketcluster-connector@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@chaingun/socketcluster-connector/-/socketcluster-connector-0.0.6.tgz#e5e9feadc77975c4c812d95dbb212bd2a25f1000"
-  integrity sha512-+MIhuBU1QBob5Y7Ljd23SjFg9TJYMOv3n3441u36xsVMEQxHQhF5VKy/d8l+6lVMsMIJhW7/uHTU1OzIlNXChQ==
+"@chaingun/socketcluster-connector@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@chaingun/socketcluster-connector/-/socketcluster-connector-0.0.7.tgz#6f1cca5cc0b11d3a1940885235b7d2ebd9b9eb44"
+  integrity sha512-AfSDvXw768vOEkXx0ukpHY+/5sbYT3tRzJYPqiwlOzLomm2zrIKC7+57XkbUYnFPTf5BwXCL6MvwSSshOAvd0g==
   dependencies:
     "@chaingun/client" "^0.0.19"
     "@chaingun/sear" "^0.0.24"
+    "@chaingun/types" "^0.0.3"
     "@types/socketcluster-client" "^13.0.3"
     socketcluster-client "^14.3.1"
 
