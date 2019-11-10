@@ -52,7 +52,7 @@ export class NabIndexer extends ChainGunSeaClient {
     graph.connect(dbConnector as any)
     graph.opt({ mutable: true })
 
-    socket.sendPutsFromGraph(graph as any)
+    dbConnector.sendPutsFromGraph(graph as any)
 
     super({ graph, ...opts })
     socket.socket.on('connect', this.authenticate.bind(this))
