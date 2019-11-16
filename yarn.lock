@@ -424,6 +424,15 @@
     "@nodelib/fs.scandir" "2.1.2"
     fastq "^1.6.0"
 
+"@notabug/client@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@notabug/client/-/client-0.0.2.tgz#b9e94c622db893a25d9e23d2268543d5751411a8"
+  integrity sha512-lQf0XTtt01ah0vPcawY2+MuZIUx1A8PFRPkL8TqyCxD+SnqyV3yJAA25MAnNuAE63gIVJPsquaKqr92Pl1onYw==
+  dependencies:
+    "@chaingun/sea-client" "^0.0.23"
+    "@chaingun/socketcluster-connector" "^0.0.7"
+    "@notabug/peer" "^0.37.0"
+
 "@notabug/gun-scope@^0.10.2":
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/@notabug/gun-scope/-/gun-scope-0.10.2.tgz#cb00d2df4379c161c1b7efc78923f5dce1e59bc0"
@@ -432,10 +441,10 @@
     ramda "^0.26.1"
     zalgo-promise "1.0.28"
 
-"@notabug/peer@^0.36.3":
-  version "0.36.3"
-  resolved "https://registry.yarnpkg.com/@notabug/peer/-/peer-0.36.3.tgz#fadcd891936341bc14b144f8dcc5ba5ba1bdf126"
-  integrity sha512-7UgBe5r3TJGxMYTcyXGce8ZJU9NEiA6rNiqYiYNhVYiCZlsj38ckNFU1SRMeK9B3mo91vtzglbMhukwlzukKwg==
+"@notabug/peer@^0.37.0":
+  version "0.37.0"
+  resolved "https://registry.yarnpkg.com/@notabug/peer/-/peer-0.37.0.tgz#7e604221e0a5194466428d8e111b2cf84b63dc77"
+  integrity sha512-dd+aL6tBRHREsa6joCKVlaMpTyOWq6VJLne4kzlNOwjNM35AETqAb0LcbmVh/xArT5MfOMOn7Kth/0uYLIPwMw==
   dependencies:
     "@notabug/gun-scope" "^0.10.2"
     argon2 "^0.21.0"
