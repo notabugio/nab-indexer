@@ -309,6 +309,15 @@
     "@chaingun/types" "^0.0.3"
     reconnecting-websocket "^4.2.0"
 
+"@chaingun/client@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@chaingun/client/-/client-0.0.24.tgz#4bb373daab8923a7d26dc24e63ab10c0e7fd331e"
+  integrity sha512-nWeUtpy+xTwU1aV7hz8QkuS7S4hB+ATFuAXen1kD9TyGAwW/s+KOjUMeeMUsU/4xkzTSM5O4sJGS/3BGb8FpFA==
+  dependencies:
+    "@chaingun/crdt" "^0.0.2"
+    "@chaingun/types" "^0.0.3"
+    reconnecting-websocket "^4.2.0"
+
 "@chaingun/crdt@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@chaingun/crdt/-/crdt-0.0.1.tgz#a94ebed24c93d50fe66526fc36c2c9764dc55691"
@@ -332,22 +341,33 @@
     "@types/isomorphic-fetch" "^0.0.35"
     isomorphic-fetch "^2.2.1"
 
-"@chaingun/lmdb-adapter@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/@chaingun/lmdb-adapter/-/lmdb-adapter-0.0.7.tgz#7f4fff1231d78007a4c05b50aaf54ff1149b0223"
-  integrity sha512-RgaBi8wCHPns3O5DlVqqld6FxOJgbEVQlY4CPmKTBTZzixkfy/5oSzXpJgQxRha3u0/cykCXGmpV60EKl0GxtQ==
+"@chaingun/lmdb-adapter@^0.0.8":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@chaingun/lmdb-adapter/-/lmdb-adapter-0.0.8.tgz#bcd71173efd8a1bb36fa77929c35712567f81a15"
+  integrity sha512-FTsB45z242nw4qqUvsiLAvJ5nqncZYgZDuASfCQhh4PMbU+dsmsVpSqECsTTt+2WxygGVfJy1gjWl6ygJB6v0A==
   dependencies:
     "@chaingun/crdt" "^0.0.1"
     "@chaingun/types" "^0.0.3"
     node-lmdb "^0.7.0"
 
-"@chaingun/node-adapters@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.0.5.tgz#1af6d0774bd7963b777777bb3da85eb9b1fb3ca8"
-  integrity sha512-npaOsaqZaZi6/1+mQcT9OMlQelgjNJ+ZfJp/5qQIjKN8NuoTt0Lsdxp35W+QDAHO1FJIO3ku45ERzioh9wh3oQ==
+"@chaingun/memory-adapter@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@chaingun/memory-adapter/-/memory-adapter-0.0.3.tgz#a1c824fb8c7f62843d05c137aa5c582bbee70739"
+  integrity sha512-lDpcb7spNtzN5YSMbCsWmicufktsm3U2bE3hANse2ifrCyWOcXhWm+e83Sms7rm3VHuw2q8ahVmtRttnnh0TnA==
+  dependencies:
+    "@chaingun/crdt" "^0.0.2"
+    "@chaingun/types" "^0.0.3"
+    "@types/ramda" "^0.26.34"
+    ramda "^0.26.1"
+
+"@chaingun/node-adapters@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.1.0.tgz#96214898fc035165dc9e79aa5607a39d82f5e0d6"
+  integrity sha512-51jDiXSRNi1zesZzzbnxN3UPjRb7rjkCanYu7ucGslnFIVcw1xy0Jl+ToSXzOrHMy87H5xO1b12eZlligIFb6w==
   dependencies:
     "@chaingun/http-adapter" "^0.4.1"
-    "@chaingun/lmdb-adapter" "^0.0.7"
+    "@chaingun/lmdb-adapter" "^0.0.8"
+    "@chaingun/memory-adapter" "^0.0.3"
     "@chaingun/types" "^0.0.3"
     "@types/node" "^12.11.7"
 
@@ -357,6 +377,14 @@
   integrity sha512-8z2fFL5WylUWMZGLHb0HfHSYSQwAih+dE8FOZT/eAqNiaeRWlu+3K5oozB3DsQYRl4tlCZZ6uawHa7TWTZ4FIw==
   dependencies:
     "@chaingun/client" "^0.0.23"
+    "@chaingun/sear" "^0.0.24"
+
+"@chaingun/sea-client@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.yarnpkg.com/@chaingun/sea-client/-/sea-client-0.0.25.tgz#611c3b34d2af52c07beac7177498faee00034030"
+  integrity sha512-vpLM/bRfsG9r2uhU8Amm89h+Gq1tIbeAuBNg4RxILq0dEAsGiP1V1R3sxIvd+Mff1rWdZfZmBv2MFfCniiPU1g==
+  dependencies:
+    "@chaingun/client" "^0.0.24"
     "@chaingun/sear" "^0.0.24"
 
 "@chaingun/sear@^0.0.24":
@@ -579,6 +607,13 @@
   version "12.12.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.12.5.tgz#66103d2eddc543d44a04394abb7be52506d7f290"
   integrity sha512-KEjODidV4XYUlJBF3XdjSH5FWoMCtO0utnhtdLf1AgeuZLOrRbvmU/gaRCVg7ZaQDjVf3l84egiY0mRNe5xE4A==
+
+"@types/ramda@^0.26.34":
+  version "0.26.36"
+  resolved "https://registry.yarnpkg.com/@types/ramda/-/ramda-0.26.36.tgz#094f495c04f8876f583597ae73dce7eac94fc6ba"
+  integrity sha512-uo22Nf32Cc3EURp9tYlFttY8MVQZ1zoVum+D+yQ2jm4IqQFxDtwCQlP/WMwbuj4ey5kw1rJ7v6OacDszfWiqLA==
+  dependencies:
+    ts-toolbelt "^4.10.7"
 
 "@types/sc-auth@*":
   version "5.0.0"
@@ -5024,6 +5059,11 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
   integrity sha1-yy4SAwZ+DI3h9hQJS5/kVwTqYAM=
+
+ts-toolbelt@^4.10.7:
+  version "4.10.21"
+  resolved "https://registry.yarnpkg.com/ts-toolbelt/-/ts-toolbelt-4.10.21.tgz#b88797c82161c9d019c1f3cf940b56540766eb6e"
+  integrity sha512-89MjhFYWESgNoQVFZXmZL8o25cOg/7nlky2XyDEyXFMFj8SvjGPnvm1mcZSkKO+ipBHa5iforjAJ4ZScaBokUA==
 
 tslib@^1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.3:
   version "1.10.0"
