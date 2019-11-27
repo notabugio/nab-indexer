@@ -1,6 +1,6 @@
 {
   "name": "@notabug/nab-indexer",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Indexer for notabug.io",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -53,8 +53,7 @@
   },
   "dependencies": {
     "@chaingun/node-adapters": "^0.1.0",
-    "@chaingun/sea-client": "^0.0.25",
-    "@notabug/client": "^0.0.2",
+    "@notabug/client": "^0.0.3",
     "dotenv": "^8.1.0"
   },
   "devDependencies": {
