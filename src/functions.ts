@@ -45,12 +45,24 @@ export async function getListings(
     if (topic) {
       listings.push(`/t/${topic}`)
     }
+
     if (topic !== 'all') {
-      listings.push('/t/all')
+      const hashIdx = topic.indexOf('#')
+
+      if (hashIdx === -1 || hashIdx === 0) {
+        listings.push('/t/all')
+      } else {
+        const source = topic.slice(0, hashIdx)
+
+        listings.push('/t/external#all')
+        listings.push(`/t/${source}#all`)
+      }
     }
+
     if (domain) {
       listings.push(`/domain/${domain}`)
     }
+
     if (authorId) {
       listings.push(`/user/${authorId}/submitted`)
       listings.push(`/user/${authorId}/overview`)
@@ -72,6 +84,19 @@ export async function getListings(
     }
     if (topic !== 'all') {
       listings.push('/t/comments:all')
+    }
+
+    if (topic !== 'all') {
+      const hashIdx = topic.indexOf('#')
+
+      if (hashIdx === -1 || hashIdx === 0) {
+        listings.push('/t/comments:all')
+      } else {
+        const source = topic.slice(0, hashIdx)
+
+        listings.push('/t/external#comments:all')
+        listings.push(`/t/${source}#comments:all`)
+      }
     }
 
     if (replyToId) {
@@ -115,7 +140,7 @@ export async function describeThingId(
 ): Promise<{
   readonly id: string
   readonly includes: readonly string[]
-  readonly sorts: readonly any[][]
+  readonly sorts: ReadonlyArray<readonly any[]>
 }> {
   if (!thingId) {
     return null
