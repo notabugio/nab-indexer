@@ -47,15 +47,15 @@ export async function getListings(
     }
 
     if (topic !== 'all') {
-      const hashIdx = topic.indexOf('#')
+      const dotIdx = topic.indexOf('.')
 
-      if (hashIdx === -1 || hashIdx === 0) {
+      if (dotIdx === -1 || dotIdx === 0) {
         listings.push('/t/all')
       } else {
-        const source = topic.slice(0, hashIdx)
+        const source = topic.slice(0, dotIdx)
 
-        listings.push('/t/external#all')
-        listings.push(`/t/${source}#all`)
+        listings.push('/t/external.all')
+        listings.push(`/t/${source}.all`)
       }
     }
 
@@ -87,15 +87,15 @@ export async function getListings(
     }
 
     if (topic !== 'all') {
-      const hashIdx = topic.indexOf('#')
+      const dotIdx = topic.indexOf('.')
 
-      if (hashIdx === -1 || hashIdx === 0) {
+      if (dotIdx === -1 || dotIdx === 0) {
         listings.push('/t/comments:all')
       } else {
-        const source = topic.slice(0, hashIdx)
+        const source = topic.slice(0, dotIdx)
 
-        listings.push('/t/external#comments:all')
-        listings.push(`/t/${source}#comments:all`)
+        listings.push('/t/external.comments:all')
+        listings.push(`/t/${source}.comments:all`)
       }
     }
 
