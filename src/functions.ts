@@ -54,7 +54,10 @@ export async function getListings(
       } else {
         const source = topic.slice(0, dotIdx)
 
-        listings.push('/t/external.all')
+        if (source !== 'test') {
+          listings.push('/t/external.all')
+        }
+
         listings.push(`/t/${source}.all`)
       }
     }
@@ -94,7 +97,10 @@ export async function getListings(
       } else {
         const source = topic.slice(0, dotIdx)
 
-        listings.push('/t/external.comments:all')
+        if (source !== 'test') {
+          listings.push('/t/external.comments:all')
+        }
+
         listings.push(`/t/${source}.comments:all`)
       }
     }
