@@ -133,7 +133,18 @@ export async function getListings(
       listings.push(`/t/chat:${topic}`)
     }
     if (topic !== 'all') {
-      listings.push('/t/chat:all')
+      const dotIdx = topic.indexOf('.')
+
+      if (dotIdx === -1 || dotIdx === 0) {
+        listings.push('/t/chat:all')
+      } else {
+        const source = topic.slice(0, dotIdx)
+
+        if (source !== 'test') {
+          listings.push('/t/external.chat:all')
+        }
+        listings.push(`/t/${source}.chat:all`)
+      }
     }
   }
 
