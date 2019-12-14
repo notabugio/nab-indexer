@@ -85,9 +85,6 @@ export async function getListings(
     if (topic) {
       listings.push(`/t/comments:${topic}`)
     }
-    if (topic !== 'all') {
-      listings.push('/t/comments:all')
-    }
 
     if (topic !== 'all') {
       const dotIdx = topic.indexOf('.')
