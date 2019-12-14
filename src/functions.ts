@@ -98,10 +98,10 @@ export async function getListings(
         const source = topic.slice(0, dotIdx)
 
         if (source !== 'test') {
-          listings.push('/t/external.comments:all')
+          listings.push('/t/comments:external.all')
         }
 
-        listings.push(`/t/${source}.comments:all`)
+        listings.push(`/t/comments:${source}.all`)
       }
     }
 
@@ -141,9 +141,9 @@ export async function getListings(
         const source = topic.slice(0, dotIdx)
 
         if (source !== 'test') {
-          listings.push('/t/external.chat:all')
+          listings.push('/t/chat:external.all')
         }
-        listings.push(`/t/${source}.chat:all`)
+        listings.push(`/t/chat:${source}.all`)
       }
     }
   }
