@@ -194,9 +194,11 @@ export const descriptionToListingMap = (declarativeUpdate: any) => {
   return results
 }
 
+let globalScope
+
 export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
   const startedAt = new Date().getTime()
-  const scope = peer.newScope()
+  const scope = (globalScope = globalScope || peer.newScope())
 
   try {
     const description = await describeThingId(scope, id)
@@ -274,7 +276,7 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
     // tslint:disable-next-line: no-console
     console.error('Indexer error', e.stack || e)
   } finally {
-    scope.off()
+    // scope.off()
   }
 
   const endedAt = new Date().getTime()
