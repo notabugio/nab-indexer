@@ -1,4 +1,10 @@
-import { Config, Listing, Query, Schema, ThingDataNode } from '@notabug/client'
+import {
+  Config,
+  Listing,
+  Query,
+  Schema,
+  ThingDataNode
+} from '@notabug/client'
 import { NabIndexer } from './NabIndexer'
 
 const WRITE_TIMEOUT = 2000
@@ -203,6 +209,7 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
     const listingMap: readonly any[] = descriptionToListingMap(description)
 
     const putData: any = {}
+    const putGraphData: any = {}
 
     const souls = listingMap.map(item => {
       const [listingPath]: readonly [
@@ -240,7 +247,7 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
         if (!diff) {
           return
         }
-        putData[listingPath] = {
+        putData[listingPath] = putGraphData[soul] = {
           _: {
             '#': soul
           },
@@ -249,24 +256,27 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
       })
     )
 
-    if (Object.keys(putData).length) {
+    if (Object.keys(putGraphData).length) {
       const listingsSoul = Schema.ThingListingsMeta.route.reverse({
         tabulator: Config.tabulator,
         thingId: id
       })
       if (listingsSoul) {
         await new Promise((ok, fail) => {
-          const timeout = setTimeout(
-            () => fail(new Error('Write timeout')),
-            WRITE_TIMEOUT
-          )
+          const timeout = setTimeout(() => {
+            off()
+            fail(new Error('Write timeout'))
+          }, WRITE_TIMEOUT)
 
           function done(): void {
             clearTimeout(timeout)
             ok()
+            off()
           }
 
-          peer.get(listingsSoul).put(putData, done)
+          const off = peer.graph.put(putGraphData, done)
+
+          // peer.get(listingsSoul).put(putData, done)
         })
       }
     }
