@@ -250,26 +250,20 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
     )
 
     if (Object.keys(putGraphData).length) {
-      const listingsSoul = Schema.ThingListingsMeta.route.reverse({
-        tabulator: Config.tabulator,
-        thingId: id
+      await new Promise((ok, fail) => {
+        const timeout = setTimeout(() => {
+          off()
+          fail(new Error('Write timeout'))
+        }, WRITE_TIMEOUT)
+
+        function done(): void {
+          clearTimeout(timeout)
+          ok()
+          off()
+        }
+
+        const off = peer.graph.put(putGraphData, done)
       })
-      if (listingsSoul) {
-        await new Promise((ok, fail) => {
-          const timeout = setTimeout(() => {
-            off()
-            fail(new Error('Write timeout'))
-          }, WRITE_TIMEOUT)
-
-          function done(): void {
-            clearTimeout(timeout)
-            ok()
-            off()
-          }
-
-          const off = peer.graph.put(putGraphData, done)
-        })
-      }
     }
   } catch (e) {
     // tslint:disable-next-line: no-console
