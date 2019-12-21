@@ -1,10 +1,4 @@
-import {
-  Config,
-  Listing,
-  Query,
-  Schema,
-  ThingDataNode
-} from '@notabug/client'
+import { Config, Listing, Query, Schema, ThingDataNode } from '@notabug/client'
 import { NabIndexer } from './NabIndexer'
 
 const WRITE_TIMEOUT = 2000
@@ -208,7 +202,6 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
     const description = await describeThingId(scope, id)
     const listingMap: readonly any[] = descriptionToListingMap(description)
 
-    const putData: any = {}
     const putGraphData: any = {}
 
     const souls = listingMap.map(item => {
@@ -247,7 +240,7 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
         if (!diff) {
           return
         }
-        putData[listingPath] = putGraphData[soul] = {
+        putGraphData[soul] = {
           _: {
             '#': soul
           },
@@ -275,8 +268,6 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
           }
 
           const off = peer.graph.put(putGraphData, done)
-
-          // peer.get(listingsSoul).put(putData, done)
         })
       }
     }
