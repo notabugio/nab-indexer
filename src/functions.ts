@@ -197,6 +197,8 @@ export const descriptionToListingMap = (declarativeUpdate: any) => {
 export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
   const startedAt = new Date().getTime()
   const scope = peer.newScope()
+  let fetchedEnd = 0
+  let diffEnd = 0
 
   try {
     const description = await describeThingId(scope, id)
@@ -227,6 +229,8 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
       )
     )
 
+    fetchedEnd = new Date().getTime()
+
     await Promise.all(
       listingMap.map(async item => {
         const [listingPath, updatedItems]: readonly [
@@ -248,6 +252,8 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
         }
       })
     )
+
+    diffEnd = new Date().getTime()
 
     if (Object.keys(putGraphData).length) {
       await new Promise((ok, fail) => {
@@ -274,7 +280,12 @@ export async function indexThing(peer: NabIndexer, id: string): Promise<void> {
 
   const endedAt = new Date().getTime()
   // tslint:disable-next-line: no-console
-  console.log('indexed', (endedAt - startedAt) / 1000, id)
+  console.log('indexed', id, {
+    diff: diffEnd - fetchedEnd,
+    fetch: fetchedEnd - startedAt,
+    total: endedAt - startedAt,
+    write: endedAt - diffEnd
+  })
 }
 
 export function idsToIndex(msg: any): readonly string[] {
