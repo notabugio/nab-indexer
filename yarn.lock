@@ -330,15 +330,6 @@
   dependencies:
     "@chaingun/types" "^0.0.4"
 
-"@chaingun/http-adapter@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@chaingun/http-adapter/-/http-adapter-0.4.1.tgz#a12b5548d3d7225ff067bf888b95646e4ed0403a"
-  integrity sha512-VRAWZsfwoeJ+YswHgcFXgG5FHoRlJdoMiSxt1eIq2Cb3eMeracowzkftrGDC4OR0en07kZWfAz20TyOmVR1NeA==
-  dependencies:
-    "@chaingun/types" "^0.0.3"
-    "@types/isomorphic-fetch" "^0.0.35"
-    isomorphic-fetch "^2.2.1"
-
 "@chaingun/http-adapter@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@chaingun/http-adapter/-/http-adapter-0.5.1.tgz#6402c35f123a15287005888a36df4de08260c35c"
@@ -348,13 +339,13 @@
     "@types/isomorphic-fetch" "^0.0.35"
     isomorphic-fetch "^2.2.1"
 
-"@chaingun/lmdb-adapter@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@chaingun/lmdb-adapter/-/lmdb-adapter-0.0.8.tgz#bcd71173efd8a1bb36fa77929c35712567f81a15"
-  integrity sha512-FTsB45z242nw4qqUvsiLAvJ5nqncZYgZDuASfCQhh4PMbU+dsmsVpSqECsTTt+2WxygGVfJy1gjWl6ygJB6v0A==
+"@chaingun/lmdb-adapter@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@chaingun/lmdb-adapter/-/lmdb-adapter-0.0.12.tgz#a840e3c407a5af46be7584145e40c097d5f54d2a"
+  integrity sha512-5CHaXG3O/SDHtQVPdGco5lfoURs12MmC7bBBTs5ytw+Kq2Nh/qVFhdT4nJVz7JF4zu/0LN02e2h41v1wggoYSg==
   dependencies:
     "@chaingun/crdt" "^0.0.1"
-    "@chaingun/types" "^0.0.3"
+    "@chaingun/types" "^0.0.4"
     node-lmdb "^0.7.0"
 
 "@chaingun/memory-adapter@^0.0.3":
@@ -367,13 +358,13 @@
     "@types/ramda" "^0.26.34"
     ramda "^0.26.1"
 
-"@chaingun/node-adapters@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.1.0.tgz#96214898fc035165dc9e79aa5607a39d82f5e0d6"
-  integrity sha512-51jDiXSRNi1zesZzzbnxN3UPjRb7rjkCanYu7ucGslnFIVcw1xy0Jl+ToSXzOrHMy87H5xO1b12eZlligIFb6w==
+"@chaingun/node-adapters@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@chaingun/node-adapters/-/node-adapters-0.2.3.tgz#b9163e0c01af08b0e0d4aae3ba7c863757dfaeee"
+  integrity sha512-12HKwIBECJUZnMEwXUe2cvFjcyKcphX/xGyEsoyjMLvNZZBcV4NfSCmFYr5AOvH7f9YizVGCSU6aGQpD79eb+w==
   dependencies:
-    "@chaingun/http-adapter" "^0.4.1"
-    "@chaingun/lmdb-adapter" "^0.0.8"
+    "@chaingun/http-adapter" "^0.5.1"
+    "@chaingun/lmdb-adapter" "^0.0.12"
     "@chaingun/memory-adapter" "^0.0.3"
     "@chaingun/types" "^0.0.3"
     "@types/node" "^12.11.7"
